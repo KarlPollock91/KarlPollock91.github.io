@@ -1,0 +1,13 @@
+.grid-item {
+    width: 5px;
+    height: 5px;
+    border: solid 1px #000000;
+}
+
+#grid-container {
+    border: solid 1px rebeccapurple;
+    width:100%;
+    height:100%;
+    display: grid;
+    grid: auto;
+}
