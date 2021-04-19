@@ -101,14 +101,12 @@ function onLoad(){
     userInputAddFile.addEventListener("change", (event) => {
         try {
             var file = event.target.files[0];
-            //console.log(file);
             var reader = new FileReader();
             reader.addEventListener('load', (event) => {
                 var text = event.target.result;
                
                 try {
                     var data = text.match(/[^\r\n]+/g);
-                    console.log(data);
                     if ((data.length % 2) != 0) {
                         displayMessagePopup(ERROR_5);
                     } else {
@@ -140,13 +138,11 @@ function onLoad(){
                         }
                     }
                 } catch(err) {
-                    console.log("error 2");
                 }
             });
           
             reader.readAsText(file, "UTF-8");
         } catch (err) {
-            console.log("error");
             console.log(err);
             displayMessagePopup(ERROR_5);
         }
@@ -413,7 +409,6 @@ function removePreviousChildElements() {
 
 //The + button is clicked and the user is prompted to enter a number
 function openInput(colOrRow, index) {
-    console.log(numbersDataLists[colOrRow][index]);
     if (isThereRoom(numbersDataLists[colOrRow][index])){
         addNumber(colOrRow, index, "-1");
     } else {
@@ -619,7 +614,6 @@ function mainStage(solution) {
     
     var complete = checkForCompleteSolution(solution.gridData);
     if (complete){
-        console.log("Finished");
         return SUCCESS;
     } else {
         //Guessing time
