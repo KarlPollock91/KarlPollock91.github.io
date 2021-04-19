@@ -20,7 +20,6 @@ const ERROR_4 = "You did not enter a valid number."
 const ERROR_5 = "You have inserted an invalid file. Try checking the formating."
 const ERROR_6 = "There is an unequal number of rows and columns in the file you inserted."
 
-var prevGridSize = 0;
 var gridSize;
 var itemSize = 20;
 var grid;
@@ -49,11 +48,7 @@ var toggleAlternateSolutionsButton;
 var itemStyle;
 
 
-var numbersDataLists = 
-{
-    row: [],
-    col: []
-}
+var numbersDataLists;
 
 function onLoad(){
     //Element definition.
@@ -104,25 +99,13 @@ function onLoad(){
             var reader = new FileReader();
             reader.addEventListener('load', (event) => {
                 var text = event.target.result;
-               
                 try {
                     var data = text.match(/[^\r\n]+/g);
                     if ((data.length % 2) != 0) {
                         displayMessagePopup(ERROR_5);
                     } else {
                         var newGridSize = data.length / 2;
-                        prevGridSize = gridSize;
                         initGrid(newGridSize);
-                        //Clear existing numbers
-                        for (let i = 0; i < newGridSize; i++) {
-                            for (let j = 0; j < numbersDataLists[COL][i].count; j++){
-                                removeNumber(COL, i, j);
-                            }
-                            for (let j = 0; j < numbersDataLists[ROW][i].count; j++){
-                                removeNumber(ROW, i, j);
-                            }
-                        }
-
                         for (let i = 0; i < data.length; i++){
                             var numbers = data[i].split(',');
                             for (let j = 0; j < numbers.length; j++){
@@ -138,6 +121,7 @@ function onLoad(){
                         }
                     }
                 } catch(err) {
+                    console.log(err);
                 }
             });
           
@@ -155,7 +139,6 @@ function onLoad(){
             if (!isNumber(input)){
                 displayMessagePopup(ERROR_4);
             } else if (input != ""){
-                prevGridSize = gridSize;
                 initGrid(parseInt(input));
             }
         }
@@ -167,7 +150,6 @@ function onLoad(){
         if (!isNumber(input)){
             displayMessagePopup(ERROR_4);
         } else if (input != ""){
-            prevGridSize = gridSize;
             initGrid(parseInt(input));
         }
     })
@@ -176,8 +158,31 @@ function onLoad(){
         userInputBeginButton.style.visibility = "hidden";
         spinner.style.visibility = "visible";
         toggleAlternateSolutionsButton.style.visibility = "hidden";
-        setTimeout(beginAlgorithm, 1000);
         
+        var promise = new Promise(async (resolve, reject) => {
+            var results = beginAlgorithm();
+            resolve(results);
+        });
+        promise.then(
+            result => {
+                if (result.length > 0){
+                    updateGridDOM(result[0].gridData);
+                }
+                else {
+                    displayMessagePopup(ERROR_3);
+                }
+            
+                userInputBeginButton.style.visibility = "visible";
+                spinner.style.visibility = "hidden";
+            
+                if (result.length > 1) {
+                    toggleAlternateSolutionsButton.style.visibility = "visible";
+                }
+            },
+            error => {
+                alert(error);
+            }
+        )  
     })
 
     messagePopupClose.addEventListener('click', () => {
@@ -193,50 +198,29 @@ function onLoad(){
 }
 
 function initGrid(newGridSize){
-
+    numbersDataLists = {
+        row: [],
+        col: []
+    }
     gridSize = newGridSize;
 
     //Math.ceil(gridSize / 2) is the maximum number of numbers a column or row can have. This should be
     //a variable along with gridSize but I can't think of a name for it lol. maxNumOfNumbers?
 
     //Generate data structures
-    if (gridSize > prevGridSize){
-        for (let i = 0; i < gridSize; i++){
-            if (i >= numbersDataLists.row.length) {
-                numbersDataLists.row.push(new NumbersData(gridSize));
-                numbersDataLists.col.push(new NumbersData(gridSize));
-                numbersDataLists.col[i].numFreeSpaces += prevGridSize;
-                numbersDataLists.row[i].numFreeSpaces += prevGridSize;
-            }
-            for (let j = Math.ceil(prevGridSize / 2); j < Math.ceil(gridSize / 2); j++) {
-                numbersDataLists.row[i].numbers.push(0);
-                numbersDataLists.col[i].numbers.push(0);
-            }
-            numbersDataLists.col[i].numFreeSpaces += (gridSize - prevGridSize);
-            numbersDataLists.row[i].numFreeSpaces += (gridSize - prevGridSize);
+    for (i = 0; i < gridSize; i++){
+        rowNumbersListContainer.innerHTML = "";
+        rowButtonsContainer.innerHTML = "";
+        colNumbersListContainer.innerHTML = "";
+        colButtonsContainer.innerHTML = "";
+        numbersDataLists.row.push(new NumbersData());
+        numbersDataLists.col.push(new NumbersData());
+        for (let j = 0; j < Math.ceil(gridSize / 2); j++) {
+            numbersDataLists.row[i].numbers.push(0);
+            numbersDataLists.col[i].numbers.push(0);
         }
-    } else {
-        numbersDataLists.row.splice(gridSize, prevGridSize - gridSize)
-        numbersDataLists.col.splice(gridSize, prevGridSize - gridSize)
-        for (let i = 0; i < gridSize; i++){
-            numbersDataLists.row[i].numbers.splice(Math.ceil(gridSize / 2), (Math.ceil(prevGridSize / 2) - Math.ceil(gridSize / 2)));
-            numbersDataLists.col[i].numbers.splice(Math.ceil(gridSize / 2), (Math.ceil(prevGridSize / 2) - Math.ceil(gridSize / 2)));
-
-            numbersDataLists.row[i].numFreeSpaces -= (prevGridSize - gridSize);
-            numbersDataLists.col[i].numFreeSpaces -= (prevGridSize - gridSize);
-
-            if (numbersDataLists.row[i].numFreeSpaces < -1) {
-                for (let j = 0; j < numbersDataLists.row[i].count; j++){
-                    removeNumber(ROW, i, j);
-                }
-            }
-            if (numbersDataLists.col[i].numFreeSpaces < -1) {
-                for (let j = 0; j < numbersDataLists.col[i].count; j++){
-                    removeNumber(COL, i, j);
-                }
-            }
-        }
-        
+        numbersDataLists.col[i].numFreeSpaces = gridSize;
+        numbersDataLists.row[i].numFreeSpaces = gridSize;
     }
 
     //Grid construction
@@ -273,24 +257,16 @@ function initGrid(newGridSize){
     colButtonsContainer.style.height = `${itemSize}px`;
     colButtonsContainer.style.gridTemplateColumns = `repeat(${gridSize}, ${itemSize}px)`;
 
-    if (gridSize > prevGridSize){
-        for (let i = 0; i < prevGridSize; i++) {
-            updateExistingChildElements(COL, i);
-            updateExistingChildElements(ROW, i);
-        }
-        for (let i = prevGridSize; i < gridSize; i++){
-            var childElements = generateChildElements(ROW, i);
-            rowButtonsContainer.appendChild(childElements.buttonElement);
-            rowNumbersListContainer.appendChild(childElements.numbersListElement);
+   for (let i = 0; i < gridSize; i++) {
+        var childElements = generateChildElements(ROW, i);
+        rowButtonsContainer.appendChild(childElements.buttonElement);
+        rowNumbersListContainer.appendChild(childElements.numbersListElement);
 
-            childElements = generateChildElements(COL, i);
-            colButtonsContainer.appendChild(childElements.buttonElement);
-            colNumbersListContainer.appendChild(childElements.numbersListElement);
-        }
-    } else {
-        removePreviousChildElements();
-        
+        childElements = generateChildElements(COL, i);
+        colButtonsContainer.appendChild(childElements.buttonElement);
+        colNumbersListContainer.appendChild(childElements.numbersListElement);
     }
+
 
     updateStyleSheet();
 
@@ -373,40 +349,6 @@ function generateChildElements(colOrRow, index) {
     }
 }
 
-function updateExistingChildElements(colOrRow, index) {
-    numbersListElement = document.getElementById(`${colOrRow}-number-list-${index}`);
-    for (let i = Math.ceil(prevGridSize / 2); i < Math.ceil(gridSize / 2); i++){
-        var numberDiv = document.createElement("div");
-        numberDiv.className = "number";
-        numberDiv.id = `${colOrRow}-num-${index},${i}`
-        numberDiv.addEventListener('click', () => {
-            var numZeroes = Math.ceil(gridSize / 2) - numbersDataLists[colOrRow][index].count;
-            removeNumber(colOrRow, index, i - numZeroes);
-        })
-        numbersListElement.appendChild(numberDiv);
-        
-    }
-}
-
-function removePreviousChildElements() {
-    for (let i = gridSize; i < prevGridSize; i++){
-        rowButtonsContainer.removeChild(rowButtonsContainer.lastElementChild);
-        rowNumbersListContainer.removeChild(rowNumbersListContainer.lastElementChild);
-        colButtonsContainer.removeChild(colButtonsContainer.lastElementChild);
-        colNumbersListContainer.removeChild(colNumbersListContainer.lastElementChild);
-    }
-
-    for (let i = 0; i < gridSize; i++) {
-        var colToRemoveFrom = document.getElementById(`col-number-list-${i}`);
-        var rowToRemoveFrom = document.getElementById(`row-number-list-${i}`);
-        for (let j = Math.ceil(gridSize/2); j < Math.ceil(prevGridSize / 2); j++){
-            colToRemoveFrom.removeChild(colToRemoveFrom.lastElementChild);
-            rowToRemoveFrom.removeChild(rowToRemoveFrom.lastElementChild);
-        }
-    }
-
-}
-
 //The + button is clicked and the user is prompted to enter a number
 function openInput(colOrRow, index) {
     if (isThereRoom(numbersDataLists[colOrRow][index])){
@@ -432,19 +374,17 @@ function isThereRoom(list) {
 //number: Number to add to board.
 function addNumber(colOrRow, index, number) {
     var parsedNumber = parseInt(number);
-    var list = numbersDataLists[colOrRow][index];
-
-    var updatedFreeSpace = list.numFreeSpaces;
+    var updatedFreeSpace = numbersDataLists[colOrRow][index].numFreeSpaces;
     updatedFreeSpace -= (parsedNumber + 1);
     //Minus one because we add a free space at start of algorithm.
     if (updatedFreeSpace < -1){
         displayMessagePopup(ERROR_1);
     } else {
         if (parsedNumber != -1){
-            list.numFreeSpaces = updatedFreeSpace;
+            numbersDataLists[colOrRow][index].numFreeSpaces = updatedFreeSpace;
         }
-        list.numbers[list.count] = parsedNumber;
-        list.count += 1;
+        numbersDataLists[colOrRow][index].numbers[numbersDataLists[colOrRow][index].count] = parsedNumber;
+        numbersDataLists[colOrRow][index].count += 1;
 
         updateNumbersDOM(colOrRow);
     }
@@ -455,15 +395,20 @@ function addNumber(colOrRow, index, number) {
 //elementIndex: index of element being clicked
 //todo shit so you need to reverse engineer your fucky ui
 function removeNumber(colOrRow, index, elementIndex) {
-    var list = numbersDataLists[colOrRow][index];
-    let number = list.numbers[elementIndex];
-    if (number != -1){
-        list.numFreeSpaces += (number + 1);
+    console.log(`removing ${colOrRow}, ${index}, ${elementIndex}`);
+    let number = numbersDataLists[colOrRow][index].numbers[elementIndex];
+    console.log(numbersDataLists[colOrRow][index]);
+    console.log(number);
+    if (number != 0 && number != undefined){
+        console.log("number is not 0");
+        if (number != -1){
+            numbersDataLists[colOrRow][index].numFreeSpaces += (number + 1);
+        }
+        numbersDataLists[colOrRow][index].numbers.splice(elementIndex, 1);
+        numbersDataLists[colOrRow][index].numbers.push(0);
+        numbersDataLists[colOrRow][index].count -= 1;
+        updateNumbersDOM(colOrRow);
     }
-    list.numbers.splice(elementIndex, 1);
-    list.numbers.push(0);
-    list.count -= 1;
-    updateNumbersDOM(colOrRow);
 }
 
 //NOTE: This could be more efficient but you're dealing with such small data sets it doesn't matter if you update everything
@@ -574,20 +519,8 @@ function beginAlgorithm() {
             completeSolutions.push(solution);
         }
     }
-
-    if (completeSolutions.length > 0){
-        updateGridDOM(completeSolutions[0].gridData);
-    }
-    else {
-        displayMessagePopup(ERROR_3);
-    }
-
-    userInputBeginButton.style.visibility = "visible";
-    spinner.style.visibility = "hidden";
-
-    if (completeSolutions.length > 1) {
-        toggleAlternateSolutionsButton.style.visibility = "visible";
-    }
+    console.log(completeSolutions);
+    return completeSolutions;
 }
 
 

@@ -4,7 +4,7 @@
 //possibilitySpace: The positioning of the free spaces, this is what is permuted over.
 //convertedPossibilitySpace: the possibilitySpace converted into a readable format to apply to the visual grid.
 class NumbersData {
-    constructor(gridSize) {
+    constructor() {
         this.count = 0;
         this.numbers = [];
         this.numFreeSpaces = 0;
