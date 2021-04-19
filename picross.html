@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="assets/css/picross.css" />
+    <script src="assets/js/picross.js"></script>
+    <script src="assets/js/class/NumbersData.js"></script>
+    
+</head>
+<body onload="onLoad()">
+    <div id="main-container">
+        <div id="message-popup">
+            <div id="message-popup-message">Something has gone wrong.</div>
+            <div id="message-popup-close" class="button">Okay!</div>
+        </div>
+        <div id="main-layout">
+            <div id="toggle-alternate-solutions-container">
+                <div id="toggle-alternate-solutions" class="button">Toggle alternate solutions</div>
+            </div>
+            <div id="column-container">
+                <div id="column-numbers"></div>
+                <div id="column-buttons"></div>
+            </div>
+            <div id="row-container">
+                <div id="row-numbers"></div>
+                <div id="row-buttons"></div>
+            </div>
+            <div id="grid-container"></div>
+            <div id="user-input-container">
+                <input id="user-input-grid-size-input"></input>
+                <div id="user-input-grid-size-button" class="button">Set size.</div>
+                <div id="user-input-begin-button" class="button">
+                    Start the algorithm.
+                </div>
+                <img src="/images/spinner.gif" id="spinner"></img>
+
+                <div id="user-input-add-file-container">
+                    <p>Select a file to insert a puzzle. Format it such that each new line represents a column from left to right, followed by the rows from top to bottom. Seperate numbers with a comma. Enter a 0 if there are no numbers in that column/row.</p> 
+                    <p><a href="images/example.png">View Example.</a></p>
+                    <label for="myfile">Select a file:</label>
+                    <input type="file" id="user-input-add-file-button"> 
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    
+</body>
+</html>

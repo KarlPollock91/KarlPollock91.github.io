@@ -1,13 +1,240 @@
-.grid-item {
-    width: 5px;
-    height: 5px;
-    border: solid 1px #000000;
+@import url(fontawesome-all.min.css);
+
+#main-container {
+    width:100%;
+    height:100%;
+    position:absolute;
+    
 }
 
+#main-layout {
+    background-color: #FFFFFF;
+    box-shadow: inset 0 0 0 1px rebeccapurple;
+    display: inline-grid;
+    position:absolute;
+    top:0;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr, 1fr;
+}
+
+/* USER INPUT */
+
+#user-input-container {
+    box-shadow: inset 0 0 0 1px rebeccapurple;
+    padding:10px;
+    height:auto;
+    display: inline-grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:1fr 1fr 5fr;
+    grid-row: 3;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+#user-input-grid-size-input{
+    width:100%;
+    height:20px;
+    grid-row:1;
+    grid-column:1;
+    margin-top:1px;
+    text-align:right;
+}
+
+#user-input-grid-size-button{
+    width:calc(100% - 12px);
+    height:20px;
+    grid-column:2;
+    grid-row:1;
+    margin-top:1px;
+    margin-left:10px;
+}
+
+#user-input-begin-button{
+    width:100%;
+    height:20px;
+    grid-column-start:1;
+    grid-column-end:3;
+    grid-row:2;
+    margin-top:5px
+}
+
+#user-input-add-file-container {
+    width:100%;
+    height:auto;
+    grid-column-start:1;
+    grid-column-end:3;
+    grid-row:3;
+}
+
+#toggle-alternate-solutions-container{
+    grid-column-start:1;
+    grid-column-end:1;
+    position:relative;
+}
+
+#toggle-alternate-solutions {
+    margin:15px;
+    width:65px;
+    height:75px;
+    position:absolute;
+    bottom:0px;
+    right:0px;
+    visibility: hidden;
+}
+
+#spinner {
+    visibility:hidden;
+    z-index: 1;
+    position:relative;
+    grid-row:2;
+    grid-column:1;
+    left:90%;
+    height:40px;
+    width:40px;
+}
+
+/* COLUMNS */
+
+#column-container {
+    box-shadow: inset 0 0 0 1px rebeccapurple;
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+}
+
+#column-numbers{
+    box-shadow: inset 0 0 0 1px rebeccapurple;
+    position:absolute;
+    top:0px;
+    display:grid;
+}
+
+#column-buttons{
+    box-shadow: inset 0 0 0 1px rebeccapurple;
+    position:absolute;
+    bottom:0px;
+    width:100%;
+    display:grid;
+}
+
+/* ROWS */
+
+#row-container {
+    box-shadow: inset 0 0 0 1px rebeccapurple;
+    width:100%;
+    grid-column: 1;
+    grid-row: 2;
+    position: relative;
+}
+
+#row-numbers{
+    box-shadow: inset 0 0 0 1px rebeccapurple;
+    position:absolute;
+    left:0px;
+    height:100%;
+    display:grid;
+}
+
+#row-buttons{
+    box-shadow: inset 0 0 0 1px rebeccapurple;
+    position:absolute;
+    right:0px;
+    height:100%;
+    display:grid;
+}
+
+/* GRID */
+
 #grid-container {
-    border: solid 1px rebeccapurple;
+    box-shadow: inset 0 0 0 1px rebeccapurple;
     width:100%;
     height:100%;
     display: grid;
-    grid: auto;
+    grid-column: 2;
+    grid-row: 2;
 }
+
+/* MESSAGE POPUP */
+
+#message-popup {
+    visibility:hidden;
+    text-align:center;
+    background-color: white;
+    border: 1px solid black;
+    width:500px;
+    height:100px;
+    position:sticky;
+    top:40%;
+    left:30%;
+    z-index: 1;
+}
+
+#message-popup-message {
+    display:block;
+    margin-top:30px;
+}
+
+#message-popup-close {
+    margin-bottom:30px;
+    margin-left:190px;
+    margin-right:190px;
+}
+
+.button {
+    border-radius:15px;
+    display:block;
+    margin-top:15px;
+    background-color: cornflowerblue;
+    color:white;
+    padding:2px;
+    text-align:center;
+}
+
+.button:active{
+    background-color:blue;
+}
+
+/* ITEM CLASSES */
+
+    .grid-item {
+        text-align:center;
+        box-shadow: inset 0 0 0 1px #000000;
+    }
+
+    .add-number-button {
+        text-align: center;
+        box-shadow: inset 0 0 0 1px #000000;
+    }
+
+    .add-number-button:hover {
+        background-color:cornflowerblue;
+    }
+    .add-number-button:active {
+        background-color:blue;
+    }
+
+    .col-number-list {
+        height: 100%;
+        box-shadow: inset 0 0 0 1px #000000;
+        display: grid;
+    }
+
+    .row-number-list {
+        width: 100%;
+        box-shadow: inset 0 0 0 1px #000000;
+        display: grid;
+    }
+
+    .number {
+        cursor: default;
+        text-align: center;
+    }
+
+    .number:hover {
+        background-color:cornflowerblue;
+    }
+    .number:active {
+        background-color:blue;
+    }
+
+    
