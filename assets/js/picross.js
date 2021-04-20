@@ -160,7 +160,7 @@ function onLoad(){
         spinner.style.visibility = "visible";
         toggleAlternateSolutionsButton.style.visibility = "hidden";
         
-        var worker = new Worker("algorithm.js");
+        var worker = new Worker("/assets/js/algorithm.js");
         worker.postMessage({numbersDataLists: numbersDataLists,
         gridSize: gridSize})
 
