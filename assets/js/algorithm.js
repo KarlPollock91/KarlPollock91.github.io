@@ -52,7 +52,7 @@ function generatePossibilitySpace(gridSize, numbersData) {
             numbersData.convertedPossibilitySpace[0].push(X);
         }
     } else {
-        thinumbersData.numFreeSpaces += 1;
+        numbersData.numFreeSpaces += 1;
         var initialPossibilitySpace = [0]
         for (let i = 0; i < numbersData.count; i++) {
             initialPossibilitySpace.push(0);
