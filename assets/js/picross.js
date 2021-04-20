@@ -373,6 +373,7 @@ function isThereRoom(list) {
 //index: Which rowNumberList/colNumberList to enter into
 //number: Number to add to board.
 function addNumber(colOrRow, index, number) {
+    console.log("add number 2");
     var parsedNumber = parseInt(number);
     var updatedFreeSpace = numbersDataLists[colOrRow][index].numFreeSpaces;
     updatedFreeSpace -= (parsedNumber + 1);
@@ -380,6 +381,7 @@ function addNumber(colOrRow, index, number) {
     if (updatedFreeSpace < -1){
         displayMessagePopup(ERROR_1);
     } else {
+        console.log("add number 3");
         if (parsedNumber != -1){
             numbersDataLists[colOrRow][index].numFreeSpaces = updatedFreeSpace;
         }
@@ -437,19 +439,21 @@ function updateNumbersDOM(colOrRow) {
                         removeNumber(colOrRow, i, j);
                     });
                     inputBox.addEventListener("keypress", (event) => {
+                        console.log("keypress")
                         if (!isNumber(event.key))
                         {
                             event.preventDefault();
                         }
                     });
                     inputBox.addEventListener("keyup", (event) => {
+                        console.log("pressed enter");
                         if (event.code === 'Enter') {
                             var input = event.target.value;
-                            event.target.remove();
                             removeNumber(colOrRow, i, j);
                             if (!isNumber(input)){
                                 displayMessagePopup(ERROR_4);
                             } else if (input != ""){
+                                console.log("add number 1");
                                 addNumber(colOrRow, i, input);
                             }
                         }
@@ -683,124 +687,4 @@ function updateGridDOM(gridData){
             }
         }
     }
-}
-
-
-function debugAddStickmanUnsolveable(){
-    addNumber(COL, 1, 1);
-    addNumber(COL, 1, 1);
-
-    addNumber(COL, 2, 1);
-    addNumber(COL, 2, 1);
-    
-    addNumber(COL, 3, 2);
-    addNumber(COL, 3, 1);
-    addNumber(COL, 3, 4);
-
-    addNumber(COL, 4, 1);
-    addNumber(COL, 4, 3);
-    addNumber(COL, 4, 1);
-
-    addNumber(COL, 5, 2);
-    addNumber(COL, 5, 1);
-    addNumber(COL, 5, 4);
-
-    addNumber(COL, 6, 1);
-    addNumber(COL, 6, 1);
-
-    addNumber(COL, 7, 1);
-    addNumber(COL, 7, 2);
-
-    addNumber(COL, 8, 1);
-    addNumber(COL, 8, 3);
-
-    addNumber(COL, 9, 2);
-    addNumber(COL, 9, 2);
-
-    addNumber(ROW, 0, 1);
-    addNumber(ROW, 0, 2);
-
-    addNumber(ROW, 1, 1);
-    addNumber(ROW, 1, 1);
-    addNumber(ROW, 1, 1);
-
-    addNumber(ROW, 2, 1);
-    addNumber(ROW, 2, 1);
-    addNumber(ROW, 2, 1);
-
-    addNumber(ROW, 3, 1);
-    addNumber(ROW, 3, 1);
-
-    addNumber(ROW, 4, 4);
-
-    addNumber(ROW, 5, 1);
-    addNumber(ROW, 5, 1);
-
-    addNumber(ROW, 6, 1);
-    addNumber(ROW, 6, 1);
-
-    addNumber(ROW, 7, 1);
-    addNumber(ROW, 7, 1);
-    addNumber(ROW, 7, 1);
-
-    addNumber(ROW, 8, 1);
-    addNumber(ROW, 8, 1);
-    addNumber(ROW, 8, 3);
-
-    addNumber(ROW, 9, 9);
-
-}
-
-function debugAddCloudMoon(){
-    addNumber(COL, 0, 3);
-    addNumber(COL, 0, 4);
-
-    addNumber(COL, 1, 3);
-    addNumber(COL, 1, 4);
-
-    addNumber(COL, 2, 5);
-    addNumber(COL, 2, 3);
-
-    addNumber(COL, 3, 5);
-    addNumber(COL, 3, 2);
-
-    addNumber(COL, 4, 4);
-    addNumber(COL, 4, 3);
-
-    addNumber(COL, 5, 2);
-    addNumber(COL, 5, 3);
-
-    addNumber(COL, 6, 1);
-
-    addNumber(COL, 7, 1);
-    addNumber(COL, 7, 1);
-
-    addNumber(COL, 8, 1);
-    addNumber(COL, 8, 1);
-
-    addNumber(COL, 9, 4);
-
-    addNumber(ROW, 0, 3);
-
-    addNumber(ROW, 1, 5);
-
-    addNumber(ROW, 2, 6);
-
-    addNumber(ROW, 3, 6);
-    addNumber(ROW, 3, 3);
-
-    addNumber(ROW, 4, 2);
-    addNumber(ROW, 4, 1);
-
-    addNumber(ROW, 5, 1);
-
-    addNumber(ROW, 6, 2);
-    addNumber(ROW, 6, 3);
-
-    addNumber(ROW, 7, 3);
-    addNumber(ROW, 7, 2);
-
-    addNumber(ROW, 8, 7);
-
-    addNumber(ROW, 9, 6);
 }
