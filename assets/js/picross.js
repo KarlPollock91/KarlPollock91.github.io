@@ -457,9 +457,9 @@ function updateNumbersDOM(colOrRow) {
                         }
                     });
 
-                    if (element.hasChildNodes()){
-                        element.removeChild(element.lastElementChild);
-                    }
+                    // if (element.hasChildNodes()){
+                    //     element.removeChild(element.lastElementChild);
+                    // }
                     element.appendChild(inputBox);
                     inputBox.focus();
                 } else {
