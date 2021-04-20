@@ -163,7 +163,7 @@ function onLoad(){
         
         var worker = new Worker("/assets/js/algorithm.js");
         worker.postMessage({numbersDataLists: numbersDataLists,
-        gridSize: gridSize})
+        gridSize: gridSize});
 
         // worker.onmessage = (e) => {
         //     completeSolutions = e.data;

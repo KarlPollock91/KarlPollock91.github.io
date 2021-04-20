@@ -5,6 +5,7 @@ const ROW = "row";
 const COL = "col";
 
 onmessage = (e) => {
+    console.log(e);
     var numbersDataLists = e.data.numbersDataLists;
     var gridSize = e.data.gridSize;
     console.log("triggered");
