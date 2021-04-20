@@ -1,19 +1,20 @@
 var depthFirstArray = [];
 var solutions = [];
-
+var numbersDataLists;
+var gridSize = 0;
 const ROW = "row";
 const COL = "col";
 
 onmessage = (e) => {
     console.log(e);
-    var numbersDataLists = e.data.numbersDataLists;
-    var gridSize = e.data.gridSize;
+    numbersDataLists = e.data.numbersDataLists;
+    gridSize = e.data.gridSize;
     console.log("triggered");
     console.log(numbersDataLists);
 
     for (let i = 0; i < gridSize; i++){
-        numbersDataLists[COL][i].generatePossibilitySpace(gridSize);
-        numbersDataLists[ROW][i].generatePossibilitySpace(gridSize);
+        generatePossibilitySpace(gridSize, numbersDataLists[COL][i]);
+        generatePossibilitySpace(gridSize,  numbersDataLists[ROW][i]);
     }
 
     var initialGridData = [];
@@ -41,6 +42,62 @@ onmessage = (e) => {
     }
 
     postMessage(solutions);
+}
+
+//Generate every permutation of the rows. This should be done first and then we can cross them off as we go.
+function generatePossibilitySpace(gridSize, numbersData) {
+    if (numbersData.numFreeSpaces == gridSize){
+        numbersData.convertedPossibilitySpace.push([]);
+        for (let i = 0; i < gridSize; i++){
+            numbersData.convertedPossibilitySpace[0].push(X);
+        }
+    } else {
+        thinumbersData.numFreeSpaces += 1;
+        var initialPossibilitySpace = [0]
+        for (let i = 0; i < numbersData.count; i++) {
+            initialPossibilitySpace.push(0);
+        }
+        recursiveGeneratePossibilitySpace(initialPossibilitySpace, numbersData.numFreeSpaces, 0, numbersData);
+        convertPossibilitySpace(numbersData);
+    }
+}
+
+function recursiveGeneratePossibilitySpace(iteration, numLeftToDistribute, lastAddedPosition, numbersData) {
+    if (numLeftToDistribute == 0) {
+        // console.log("found for:")
+        // console.log(this.numbers);
+        // console.log(iteration);
+        numbersData.possibilitySpace.push(iteration);
+    }
+    else {
+        for (let i = lastAddedPosition; i < iteration.length; i++){
+            let next = [...iteration];
+            next[i] += 1;
+            recursiveGeneratePossibilitySpace(next, numLeftToDistribute - 1, i, numbersData);
+        };
+    }
+}
+
+function convertPossibilitySpace(numbersData) {
+    for (let i = 0; i < numbersData.possibilitySpace.length; i++){
+        var newPossibility = [];
+        for (let j = 0; j < numbersData.possibilitySpace[i].length; j++){
+            for (let k = 0; k < numbersData.possibilitySpace[i][j]; k++){
+                newPossibility.push(X);
+            }
+            
+            if (j < (numbersData.possibilitySpace[i].length - 1)) {
+                for (let k = 0; k < numbersData.numbers[j]; k++){
+                    newPossibility.push(O);
+                }
+                if (j < (numbersData.possibilitySpace[i].length - 2)) {
+                    newPossibility.push(X);
+                }
+            }
+            
+        }
+        numbersData.convertedPossibilitySpace.push(newPossibility);
+    }
 }
 
 
