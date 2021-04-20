@@ -463,9 +463,6 @@ function updateNumbersDOM(colOrRow) {
                     element.appendChild(inputBox);
                     inputBox.focus();
                 } else {
-                    if (element.hasChildNodes()){
-                        element.removeChild(element.lastElementChild);
-                    }
                     element.innerHTML = numbersDataLists[colOrRow][i].numbers[j];
                 }
             }
