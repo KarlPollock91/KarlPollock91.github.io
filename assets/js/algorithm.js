@@ -2,8 +2,16 @@ var depthFirstArray = [];
 var solutions = [];
 var numbersDataLists;
 var gridSize = 0;
+
 const ROW = "row";
 const COL = "col";
+const O = "o";
+const X = "x";
+const UNKNOWN = "?";
+
+const SUCCESS = "success";
+const SUCCESS_AND_PROGRESS = "successAndProgress";
+const FAILURE = "failure";
 
 onmessage = (e) => {
     console.log(e);
