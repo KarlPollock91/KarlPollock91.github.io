@@ -49,6 +49,8 @@ onmessage = (e) => {
         }
     }
 
+    console.log("finished and posting message");
+
     postMessage(solutions);
 }
 

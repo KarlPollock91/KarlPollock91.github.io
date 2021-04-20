@@ -167,7 +167,7 @@ function onLoad(){
 
         worker.onmessage = (e) => {
             completeSolutions = e.data;
-            if (results.length > 0){
+            if (completeSolutions.length > 0){
                 updateGridDOM(completeSolutions[0].gridData);
             }
             else {
@@ -177,7 +177,7 @@ function onLoad(){
             userInputBeginButton.style.visibility = "visible";
             spinner.style.visibility = "hidden";
         
-            if (results.length > 1) {
+            if (completeSolutions.length > 1) {
                 toggleAlternateSolutionsButton.style.visibility = "visible";
             }
         }
