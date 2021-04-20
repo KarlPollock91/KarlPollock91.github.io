@@ -457,12 +457,11 @@ function updateNumbersDOM(colOrRow) {
                         }
                     });
 
-                    // if (element.hasChildNodes()){
-                    //     element.removeChild(element.lastElementChild);
-                    // }
+                    element.innerHTML = "";
                     element.appendChild(inputBox);
                     inputBox.focus();
                 } else {
+
                     element.innerHTML = numbersDataLists[colOrRow][i].numbers[j];
                 }
             }
