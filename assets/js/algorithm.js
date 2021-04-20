@@ -1,4 +1,8 @@
 var depthFirstArray = [];
+var solutions = [];
+
+const ROW = "row";
+const COL = "col";
 
 onmessage = (e) => {
     var numbersDataLists = e.data.numbersDataLists;
@@ -29,11 +33,11 @@ onmessage = (e) => {
         var solution = depthFirstArray.pop();
         var result = mainStage(solution);
         if (result == SUCCESS) {
-            completeSolutions.push(solution);
+            solutions.push(solution);
         }
     }
 
-    postMessage(completeSolutions);
+    postMessage(solutions);
 }
 
 
