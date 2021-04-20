@@ -8,6 +8,8 @@ onmessage = (e) => {
     var numbersDataLists = e.data.numbersDataLists;
     var gridSize = e.data.gridSize;
 
+    console.log(numbersDataLists);
+
     for (let i = 0; i < gridSize; i++){
         numbersDataLists[COL][i].generatePossibilitySpace(gridSize);
         numbersDataLists[ROW][i].generatePossibilitySpace(gridSize);
