@@ -1,5 +1,4 @@
-const completeSolutions = [];
-const depthFirstArray = [];
+var depthFirstArray = [];
 
 onmessage = (e) => {
     var numbersDataLists = e.data.numbersDataLists;
