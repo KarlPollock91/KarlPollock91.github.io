@@ -457,11 +457,15 @@ function updateNumbersDOM(colOrRow) {
                         }
                     });
 
-                    element.innerHTML = "";
+                    if (element.hasChildNodes()){
+                        element.removeChild(element.lastElementChild);
+                    }
                     element.appendChild(inputBox);
                     inputBox.focus();
                 } else {
-
+                    if (element.hasChildNodes()){
+                        element.removeChild(element.lastElementChild);
+                    }
                     element.innerHTML = numbersDataLists[colOrRow][i].numbers[j];
                 }
             }
