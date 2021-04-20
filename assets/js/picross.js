@@ -161,8 +161,8 @@ function onLoad(){
         toggleAlternateSolutionsButton.style.visibility = "hidden";
         
         var worker = new Worker("/assets/js/algorithm.js");
-        worker.postMessage({numbersDataLists: numbersDataLists,
-        gridSize: gridSize})
+        // worker.postMessage({numbersDataLists: numbersDataLists,
+        // gridSize: gridSize})
 
         // worker.onmessage = (e) => {
         //     completeSolutions = e.data;
