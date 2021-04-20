@@ -7,7 +7,7 @@ const COL = "col";
 onmessage = (e) => {
     var numbersDataLists = e.data.numbersDataLists;
     var gridSize = e.data.gridSize;
-
+    console.log("triggered");
     console.log(numbersDataLists);
 
     for (let i = 0; i < gridSize; i++){
