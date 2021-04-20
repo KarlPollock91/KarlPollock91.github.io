@@ -164,22 +164,22 @@ function onLoad(){
         worker.postMessage({numbersDataLists: numbersDataLists,
         gridSize: gridSize})
 
-        worker.onmessage = (e) => {
-            completeSolutions = e.data;
-            if (results.length > 0){
-                updateGridDOM(completeSolutions[0].gridData);
-            }
-            else {
-                displayMessagePopup(ERROR_3);
-            }
+        // worker.onmessage = (e) => {
+        //     completeSolutions = e.data;
+        //     if (results.length > 0){
+        //         updateGridDOM(completeSolutions[0].gridData);
+        //     }
+        //     else {
+        //         displayMessagePopup(ERROR_3);
+        //     }
         
-            userInputBeginButton.style.visibility = "visible";
-            spinner.style.visibility = "hidden";
+        //     userInputBeginButton.style.visibility = "visible";
+        //     spinner.style.visibility = "hidden";
         
-            if (results.length > 1) {
-                toggleAlternateSolutionsButton.style.visibility = "visible";
-            }
-        }
+        //     if (results.length > 1) {
+        //         toggleAlternateSolutionsButton.style.visibility = "visible";
+        //     }
+        // }
     })
 
     messagePopupClose.addEventListener('click', () => {
