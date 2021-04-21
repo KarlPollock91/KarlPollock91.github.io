@@ -14,11 +14,8 @@ const SUCCESS_AND_PROGRESS = "successAndProgress";
 const FAILURE = "failure";
 
 onmessage = (e) => {
-    console.log(e);
     numbersDataLists = e.data.numbersDataLists;
     gridSize = e.data.gridSize;
-    console.log("triggered");
-    console.log(numbersDataLists);
 
     for (let i = 0; i < gridSize; i++){
         generatePossibilitySpace(gridSize, numbersDataLists[COL][i]);
@@ -48,8 +45,6 @@ onmessage = (e) => {
             solutions.push(solution);
         }
     }
-
-    console.log("finished and posting message");
 
     postMessage(solutions);
 }

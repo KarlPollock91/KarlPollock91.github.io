@@ -155,7 +155,6 @@ function onLoad(){
     })
 
     userInputBeginButton.addEventListener('click', () => {
-        console.log("inputbutton clicked");
         userInputBeginButton.style.visibility = "hidden";
         spinner.style.visibility = "visible";
         toggleAlternateSolutionsButton.style.visibility = "hidden";
@@ -365,7 +364,6 @@ function isThereRoom(list) {
 //index: Which rowNumberList/colNumberList to enter into
 //number: Number to add to board.
 function addNumber(colOrRow, index, number) {
-    console.log("add number 2");
     var parsedNumber = parseInt(number);
     var updatedFreeSpace = numbersDataLists[colOrRow][index].numFreeSpaces;
     updatedFreeSpace -= (parsedNumber + 1);
@@ -373,7 +371,6 @@ function addNumber(colOrRow, index, number) {
     if (updatedFreeSpace < -1){
         displayMessagePopup(ERROR_1);
     } else {
-        console.log("add number 3");
         if (parsedNumber != -1){
             numbersDataLists[colOrRow][index].numFreeSpaces = updatedFreeSpace;
         }
@@ -389,12 +386,8 @@ function addNumber(colOrRow, index, number) {
 //elementIndex: index of element being clicked
 //todo shit so you need to reverse engineer your fucky ui
 function removeNumber(colOrRow, index, elementIndex) {
-    console.log(`removing ${colOrRow}, ${index}, ${elementIndex}`);
     let number = numbersDataLists[colOrRow][index].numbers[elementIndex];
-    console.log(numbersDataLists[colOrRow][index]);
-    console.log(number);
     if (number != 0 && number != undefined){
-        console.log("number is not 0");
         if (number != -1){
             numbersDataLists[colOrRow][index].numFreeSpaces += (number + 1);
         }
@@ -427,21 +420,18 @@ function updateNumbersDOM(colOrRow) {
                         removeNumber(colOrRow, i, j);
                     });
                     inputBox.addEventListener("keypress", (event) => {
-                        console.log("keypress")
                         if (!isNumber(event.key))
                         {
                             event.preventDefault();
                         }
                     });
                     inputBox.addEventListener("keyup", (event) => {
-                        console.log("pressed enter");
                         if (event.code === 'Enter') {
                             var input = event.target.value;
                             removeNumber(colOrRow, i, j);
                             if (!isNumber(input)){
                                 displayMessagePopup(ERROR_4);
                             } else if (input != ""){
-                                console.log("add number 1");
                                 addNumber(colOrRow, i, input);
                             }
                         }
