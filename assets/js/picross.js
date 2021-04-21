@@ -1,4 +1,3 @@
-//TODO: BUG: Try adding and removing items a few times. You get ERROR_1
 const ROW = "row";
 const COL = "col";
 
@@ -202,8 +201,7 @@ function initGrid(newGridSize){
     }
     gridSize = newGridSize;
 
-    //Math.ceil(gridSize / 2) is the maximum number of numbers a column or row can have. This should be
-    //a variable along with gridSize but I can't think of a name for it lol. maxNumOfNumbers?
+    //Math.ceil(gridSize / 2) is the maximum number of numbers a column or row can have.
 
     //Generate data structures
     for (i = 0; i < gridSize; i++){
@@ -265,11 +263,7 @@ function initGrid(newGridSize){
         colNumbersListContainer.appendChild(childElements.numbersListElement);
     }
 
-
     updateStyleSheet();
-
-    //debugAddStickmanUnsolveable();
-
 }
 
 function updateStyleSheet() {
@@ -410,9 +404,6 @@ function removeNumber(colOrRow, index, elementIndex) {
         updateNumbersDOM(colOrRow);
     }
 }
-
-//NOTE: This could be more efficient but you're dealing with such small data sets it doesn't matter if you update everything
-//every time it needs to change.
 
 function updateNumbersDOM(colOrRow) {
     var element;

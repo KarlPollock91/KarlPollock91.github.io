@@ -74,9 +74,6 @@ function generatePossibilitySpace(gridSize, numbersData) {
 
 function recursiveGeneratePossibilitySpace(iteration, numLeftToDistribute, lastAddedPosition, numbersData) {
     if (numLeftToDistribute == 0) {
-        // console.log("found for:")
-        // console.log(this.numbers);
-        // console.log(iteration);
         numbersData.possibilitySpace.push(iteration);
     }
     else {
@@ -137,7 +134,7 @@ function mainStage(solution) {
     if (complete){
         return SUCCESS;
     } else {
-        //Guessing time
+        //The puzzle requires guess work.
         var bestProbability = {
             colOrRow: null,
             index: null,
