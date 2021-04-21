@@ -432,10 +432,7 @@ function updateNumbersDOM(colOrRow) {
                     inputBox.style.height = `${itemSize}px`
                     inputBox.style.width = `${itemSize}px`
                     inputBox.style.textAlign = "center";
-                    inputBox.addEventListener('blur', (event) =>{
-                        event.target.remove();
-                        removeNumber(colOrRow, i, j);
-                    });
+                    inputBox.addEventListener('blur', blurEvent);
                     inputBox.addEventListener("keypress", (event) => {
                         console.log("keypress")
                         if (!isNumber(event.key))
@@ -472,6 +469,12 @@ function updateNumbersDOM(colOrRow) {
             element.innerHTML = "";
         }
     }
+}
+
+function blurEvent(event) {
+    event.target.removeEventListener('blur', blurEvent);
+    event.target.remove();
+    removeNumber(colOrRow, i, j);
 }
 
 //Checks if the number inputed is a valid number.
