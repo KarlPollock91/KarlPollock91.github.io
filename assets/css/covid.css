@@ -1,0 +1,12 @@
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+#graph-holder {
+    position: absolute;
+    width: 1100;
+}
