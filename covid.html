@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Covid Data Visualiser</title>
+    <title>New South Wales Covid Data Visualiser</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="assets/js/covid.js"></script>
     <link rel="stylesheet" href="assets/css/covid.css" />
 </head>
 <body>
-    <div id="sidebar"></div>
+    <div id="sidebar">
+            <label id="num-days-label" class="grid-item">Number of days to display:</label>
+            <input type="number" id="num-days-input" value=30 class="grid-item"><br><br>
+            <input type="submit" value="Submit" id="num-days-submit" class="grid-item" onclick="inputSubmit()">
+    </div>
     <div id="main-view"></div>
         <div id="graph-holder">
             <div id="row1">
