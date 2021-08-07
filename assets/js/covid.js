@@ -90,10 +90,7 @@ function drawChart(data, title, yAxis, div) {
 
 function inputSubmit() {
     if (mapsReady) {
-        console.log(document.getElementById("num-days-input").value);
-        console.log(parseInt(document.getElementById("num-days-input").value));
         numDays = Math.min(parseInt(document.getElementById("num-days-input").value), secondRateOfChangeSDA.length);
-        console.log(numDays);
         readyToDraw();
     }
 }
