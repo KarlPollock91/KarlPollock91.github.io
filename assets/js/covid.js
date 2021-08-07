@@ -1,7 +1,7 @@
 const graphWidth = 550;
 const graphHeight = 400;
 var numDays = 30;
-var query = `https://data.nsw.gov.au/data/api/3/action/datastore_search_sql?sql=SELECT * from "21304414-1ff1-4243-a5d2-f52778048b29" ORDER BY notification_date DESC`
+const query = `https://data.nsw.gov.au/data/api/3/action/datastore_search_sql?sql=SELECT%20notification_date,%20COUNT(*)%20FROM%20%2221304414-1ff1-4243-a5d2-f52778048b29%22%20GROUP%20BY%20notification_date%20ORDER%20BY%20notification_date%20asc`
 var mapsReady = false;
 
 var dailyNewCases = [];
@@ -15,27 +15,10 @@ var secondRateOfChangeSDA = [];
 fetch(query).then((response) => {
     return response.json();
 }).then((json) => {
-    
-    var dailyNewCasesDict = {};
-
-    //Count each case by date
 
     for (let i = 0; i < json.result.records.length; i++) {
-        if (dailyNewCasesDict.hasOwnProperty(json.result.records[i]["notification_date"])) {
-            dailyNewCasesDict[json.result.records[i]["notification_date"]] += 1;
-        } else {
-            dailyNewCasesDict[json.result.records[i]["notification_date"]] = 1;
-        }
+        dailyNewCases.push([json.result.records[i].notification_date, json.result.records[i].count])
     }
-    
-    //Place data into orderable structure
-
-    for (let key in dailyNewCasesDict) {
-        dailyNewCases.push([key, dailyNewCasesDict[key]])
-    }
-    dailyNewCases.sort((a, b) => {
-        return a[0] - b[0];
-    }).reverse();
 
     dailyNewCasesSDA = calculateSevenDayAverage(dailyNewCases);
     firstRateOfChange = calculateDailyRateOfChange(dailyNewCases);
