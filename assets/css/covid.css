@@ -14,7 +14,7 @@
 
 #sidebar {
     grid-template-columns: 50px;
-    grid-template-columns: 15% 5% 10%;
+    grid-template-columns: 15% 5% 10% 50% 20%;
     display:grid;
     position:fixed;
     height:50px;
@@ -41,5 +41,10 @@
     width:100%;
     height:auto;
     grid-row: 1;
-    margin:15px;
+    margin:5px;
+}
+
+#source-info {
+    grid-column: 5;
+    
 }
