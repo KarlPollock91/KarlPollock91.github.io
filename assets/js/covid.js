@@ -11,6 +11,9 @@ var firstRateOfChangeSDA = [];
 var secondRateOfChange = [];
 var secondRateOfChangeSDA = [];
 
+const X_DAY_AVERAGE = 7;
+const Y_AXIS_SCALER = 1.1;
+
 
 fetch(query).then((response) => {
     return response.json();
@@ -33,12 +36,12 @@ fetch(query).then((response) => {
 
     function calculateSevenDayAverage(data) {
         sevenDayAverage = [];
-        for (let i = 6; i < data.length; i++){
+        for (let i = X_DAY_AVERAGE - 1; i < data.length; i++){
             var sum = 0;
-            for (let j = 0; j < 7; j ++) {
+            for (let j = 0; j < X_DAY_AVERAGE; j ++) {
                 sum += data[i - j][1];
             }
-            sevenDayAverage.push([data[i][0], sum / 7]);
+            sevenDayAverage.push([data[i][0], sum / X_DAY_AVERAGE]);
         }
         return sevenDayAverage;
     }
@@ -50,23 +53,47 @@ fetch(query).then((response) => {
         }
         return rateOfChange;
     }
-
-    
 }).catch((err) => {
     console.log(err);
 });
 
 function readyToDraw() {
     mapsReady = true;
-    drawChart(dailyNewCases, 'Daily New Cases of Covid-19 in NSW', 'Daily new cases', 'row1graph1');
-    drawChart(dailyNewCasesSDA, 'Daily New Cases of Covid-19 in NSW (Seven Day Average)', 'Daily new cases', 'row1graph2');
-    drawChart(firstRateOfChange, 'Rate of Change of Daily New Cases of Covid-19 in NSW', 'Rate of Change', 'row2graph1');
-    drawChart(firstRateOfChangeSDA, 'Rate of Change of Daily New Cases of Covid-19 in NSW (Seven Day Average)', 'Rate of Change', 'row2graph2');
-    drawChart(secondRateOfChange, 'Second Rate of Change of Daily New Cases of Covid-19 in NSW', 'Rate of Change', 'row3graph1');
-    drawChart(secondRateOfChangeSDA, 'Second Rate of Change of Daily New Cases of Covid-19 in NSW (Seven Day Average)', 'Rate of Change', 'row3graph2');
+
+    var minMax;
+
+    minMax = getMinAndMax(dailyNewCases);
+    drawChart(dailyNewCases, 'Daily New Cases of Covid-19 in NSW', 'Daily new cases', 'row1graph1', minMax);
+    drawChart(dailyNewCasesSDA, 'Daily New Cases of Covid-19 in NSW (Seven Day Average)', 'Daily new cases', 'row1graph2', minMax);
+
+    minMax = getMinAndMax(firstRateOfChange);
+    drawChart(firstRateOfChange, 'Rate of Change of Daily New Cases of Covid-19 in NSW', 'Rate of Change', 'row2graph1', minMax);
+    drawChart(firstRateOfChangeSDA, 'Rate of Change of Daily New Cases of Covid-19 in NSW (Seven Day Average)', 'Rate of Change', 'row2graph2', minMax);
+
+    minMax = getMinAndMax(secondRateOfChange);
+    drawChart(secondRateOfChange, 'Second Rate of Change of Daily New Cases of Covid-19 in NSW', 'Rate of Change', 'row3graph1', minMax);
+    drawChart(secondRateOfChangeSDA, 'Second Rate of Change of Daily New Cases of Covid-19 in NSW (Seven Day Average)', 'Rate of Change', 'row3graph2', minMax);
 }
 
-function drawChart(data, title, yAxis, div) {
+function getMinAndMax(dataset){
+    var result = {
+        min: dataset[dataset.length - numDays][1],
+        max: dataset[dataset.length - numDays][1]
+    }
+    for (let i = dataset.length - numDays; i < dataset.length; i++){
+        if (dataset[i][1] > result.max){
+            result.max = dataset[i][1];
+        }
+        if (dataset[i][1] < result.min){
+            result.min = dataset[i][1];
+        }
+    }
+
+    return result;
+}
+
+//Type: 0 = line, 1 = bar.
+function drawChart(data, title, yAxis, div, minMax = null) {
     //Row1Chart1 Unsmoothed daily new cases 
     var graphData = new google.visualization.DataTable();
     graphData.addColumn('string', 'Date');
@@ -81,10 +108,19 @@ function drawChart(data, title, yAxis, div) {
             title: yAxis
         },   
         'width':graphWidth,
-        'height':graphHeight	  
+        'height':graphHeight,
     };
 
-    var chart = new google.visualization.LineChart(document.getElementById(div));
+    if (minMax != null){
+        options.vAxis.viewWindow = {
+            min: 0,
+            max: minMax.max * Y_AXIS_SCALER
+        }
+    }
+
+    var chart;
+    chart = new google.visualization.LineChart(document.getElementById(div));
+
     chart.draw(graphData, options);
 }
 
