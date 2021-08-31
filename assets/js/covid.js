@@ -19,7 +19,7 @@ fetch(query).then((response) => {
     return response.json();
 }).then((json) => {
 
-    for (let i = 0; i < json.result.records.length; i++) {
+    for (let i = 0; i < json.result.records.length - 1; i++) {
         dailyNewCases.push([json.result.records[i].notification_date, json.result.records[i].count])
     }
 
