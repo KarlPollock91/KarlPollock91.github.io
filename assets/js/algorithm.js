@@ -130,6 +130,7 @@ function mainStage(solution) {
         return SUCCESS;
     } else {
         //The puzzle requires guess work.
+        console.log("Guess required.");
         var bestProbability = {
             colOrRow: null,
             index: null,
