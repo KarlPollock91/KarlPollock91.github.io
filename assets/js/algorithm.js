@@ -14,7 +14,6 @@ const SUCCESS_AND_PROGRESS = "successAndProgress";
 const FAILURE = "failure";
 
 onmessage = (e) => {
-    console.log("test");
     numbersDataLists = e.data.numbersDataLists;
     gridSize = e.data.gridSize;
 
